@@ -28,7 +28,9 @@ namespace SampleApp
         private void button2_Click(object sender, EventArgs e)
         {
             HtmlToText converter = new HtmlToText();
-            richTextBox1.Text = converter.Convert(textBox1.Text);
+            List<Node> list = converter.ConvertHtmlFile(textBox1.Text);
+            foreach (var node in list)
+                LocalizationManager.GetDynamicString("SampleHTMLAppId", node.node_hierarchy, node.content);
         }
 
         private void button3_Click(object sender, EventArgs e)

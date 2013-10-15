@@ -2,39 +2,48 @@
 
 using System.IO;
 using HtmlAgilityPack;
+using System.Collections.Generic;
 #endregion
 
 namespace SampleApp
 {
+    public class Node
+    {
+        public string node_hierarchy, content;
+        public Node(string node_hierarchy, string content)
+        {
+            this.node_hierarchy = node_hierarchy;
+            this.content = content;
+        }
+    }
     public class HtmlToText
     {
         #region Public Methods
 
-        public string Convert(string path)
+        public List<Node> ConvertHtmlFile(string path)
         {
             HtmlDocument doc = new HtmlDocument();
             doc.Load(path);
 
-            StringWriter sw = new StringWriter();
-            ConvertTo(doc.DocumentNode, sw);
-            sw.Flush();
-            return sw.ToString();
+            List<Node> list = new List<Node>();
+            ConvertTo(doc.DocumentNode, list);
+            return list;
         }
 
-        public string ConvertHtml(string html)
+        public List<Node> ConvertHtmlString(string html)
         {
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(html);
 
-            StringWriter sw = new StringWriter();
-            ConvertTo(doc.DocumentNode, sw);
-            sw.Flush();
-            return sw.ToString();
+            List<Node> list = new List<Node>();
+            ConvertTo(doc.DocumentNode, list);
+            return list;
         }
 
-        public void ConvertTo(HtmlNode node, TextWriter outText)
+        public void ConvertTo(HtmlNode node, List<Node> outText)
         {
             string html;
+            
             switch (node.NodeType)
             {
                 case HtmlNodeType.Comment:
@@ -61,7 +70,9 @@ namespace SampleApp
                     // check the text is meaningful and not a bunch of whitespaces
                     if (html.Trim().Length > 0)
                     {
-                        outText.Write(HtmlEntity.DeEntitize(html));
+                        string path = node.XPath.Replace('/','.');
+                        path = path.Substring(1, path.Length - 10);
+                        outText.Add(new Node(path, HtmlEntity.DeEntitize(html)));
                     }
                     break;
 
@@ -70,7 +81,7 @@ namespace SampleApp
                     {
                         case "p":
                             // treat paragraphs as crlf
-                            outText.Write("\r\n");
+                            //outText.Write("\r\n");
                             break;
                     }
 
@@ -86,7 +97,7 @@ namespace SampleApp
 
         #region Private Methods
 
-        private void ConvertContentTo(HtmlNode node, TextWriter outText)
+        private void ConvertContentTo(HtmlNode node, List<Node> outText)
         {
             foreach (HtmlNode subnode in node.ChildNodes)
             {
