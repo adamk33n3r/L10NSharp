@@ -1225,6 +1225,29 @@ namespace L10NSharp
 	
 		#endregion
 
+        public static string LocalizeHtmlFile(string path, string appId)
+        {
+            // Load original
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.Load(path);
+
+            // Change stuff
+            HtmlToText converter = new HtmlToText();
+            List<Node> list = converter.ConvertHtmlFile(path);
+            foreach (var node in list)
+            {
+                string xpath = node.node_hierarchy.Replace('.', '/').Substring(node.node_hierarchy.IndexOf('.'));
+                var doc_node = doc.DocumentNode.SelectSingleNode(xpath);
+                var localized_text = LocalizationManager.GetDynamicString(appId, node.node_hierarchy, node.content);
+                doc_node.InnerHtml = localized_text;
+            }
+
+            // Save new translation
+            string new_path = path.Substring(0, path.Length - 5) + "." + s_uiLangId + ".html";
+            doc.Save(new_path);
+            return new_path;
+        }
+
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{

@@ -5,7 +5,7 @@ using HtmlAgilityPack;
 using System.Collections.Generic;
 #endregion
 
-namespace SampleApp
+namespace L10NSharp
 {
     public class Node
     {
@@ -26,7 +26,7 @@ namespace SampleApp
             doc.Load(path);
 
             List<Node> list = new List<Node>();
-            ConvertTo(doc.DocumentNode, list);
+            ConvertTo(doc.DocumentNode, path, list);
             return list;
         }
 
@@ -36,11 +36,11 @@ namespace SampleApp
             doc.LoadHtml(html);
 
             List<Node> list = new List<Node>();
-            ConvertTo(doc.DocumentNode, list);
+            ConvertTo(doc.DocumentNode, "html-string", list);
             return list;
         }
 
-        public void ConvertTo(HtmlNode node, List<Node> outText)
+        public void ConvertTo(HtmlNode node, string filePath, List<Node> outText)
         {
             string html;
             
@@ -51,7 +51,7 @@ namespace SampleApp
                     break;
 
                 case HtmlNodeType.Document:
-                    ConvertContentTo(node, outText);
+                    ConvertContentTo(node, filePath, outText);
                     break;
 
                 case HtmlNodeType.Text:
@@ -71,7 +71,9 @@ namespace SampleApp
                     if (html.Trim().Length > 0)
                     {
                         string path = node.XPath.Replace('/','.');
-                        path = path.Substring(1, path.Length - 10);
+                        path = path.Substring(0, path.Length - 9);
+                        int start = filePath.LastIndexOf('\\')+1;
+                        path = filePath.Substring(start, filePath.Length-5-start)+path;
                         outText.Add(new Node(path, HtmlEntity.DeEntitize(html)));
                     }
                     break;
@@ -87,7 +89,7 @@ namespace SampleApp
 
                     if (node.HasChildNodes)
                     {
-                        ConvertContentTo(node, outText);
+                        ConvertContentTo(node, filePath, outText);
                     }
                     break;
             }
@@ -97,11 +99,11 @@ namespace SampleApp
 
         #region Private Methods
 
-        private void ConvertContentTo(HtmlNode node, List<Node> outText)
+        private void ConvertContentTo(HtmlNode node, string path, List<Node> outText)
         {
             foreach (HtmlNode subnode in node.ChildNodes)
             {
-                ConvertTo(subnode, outText);
+                ConvertTo(subnode, path, outText);
             }
         }
 
