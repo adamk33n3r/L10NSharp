@@ -25,7 +25,7 @@ namespace SampleApp
 
             L10NSharp.LocalizationManager.SetUILanguage(Settings.Default.UserInterfaceLanguage, false);
 
-            Application.Run(new Form1());
+            Application.Run(new SampleHTMLAppForm());
             Settings.Default.Save();
         }
 
@@ -48,7 +48,7 @@ namespace SampleApp
                 var theLanguageYouRememberedFromLastTime = Settings.Default.UserInterfaceLanguage;
 
                 LocalizationManager.Create(theLanguageYouRememberedFromLastTime,
-                                           "SampleApp", "SampleApp", Application.ProductVersion,
+                                           "SampleHTMLAppId", "SampleHTMLApp", Application.ProductVersion,
 										   directoryOfInstalledTmxFiles,
                                            directoryOfUserModifiedTmxFiles, 
                                            Resources.Icon, //replace with your icon

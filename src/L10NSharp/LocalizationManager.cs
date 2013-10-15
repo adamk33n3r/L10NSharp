@@ -205,7 +205,8 @@ namespace L10NSharp
 		{
 			if (directoryOfInstalledTmxFiles == null)
 				return;
-
+            if (!Directory.Exists(directoryOfInstalledTmxFiles))
+                Directory.CreateDirectory(directoryOfInstalledTmxFiles);
 			foreach (var installedFile in Directory.GetFiles(directoryOfInstalledTmxFiles, Id + "*.tmx"))
 			{
 				var targetFile = Path.Combine(TmxFileFolder, Path.GetFileName(installedFile));
@@ -318,7 +319,7 @@ namespace L10NSharp
 		/// ------------------------------------------------------------------------------------
 		public static void ShowLocalizationDialogBox(string id)
 		{
-            TipDialog.Show("If you click on an item while you hold alt and shift keys down, this tool will open up with that item already selected.");
+            //TipDialog.Show("If you click on an item while you hold alt and shift keys down, this tool will open up with that item already selected.");
             LocalizeItemDlg.ShowDialog(GetLocalizationManagerForString(id), id, false);
 		}
 
