@@ -82,7 +82,7 @@
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(260, 160);
             this.richTextBox1.TabIndex = 3;
-            this.richTextBox1.Text = "Hello";
+            this.richTextBox1.Text = "";
             // 
             // button3
             // 

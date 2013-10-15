@@ -8,6 +8,8 @@ using System.Text;
 using System.Windows.Forms;
 using L10NSharp;
 using SampleApp.Properties;
+using HtmlAgilityPack;
+using System.IO;
 
 namespace SampleApp
 {
@@ -16,6 +18,7 @@ namespace SampleApp
         public SampleHTMLAppForm()
         {
             InitializeComponent();
+            LocalizationManager.LocalizeHtmlFile(this.textBox1.Text, "SampleHTMLAppId");
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -27,10 +30,15 @@ namespace SampleApp
 
         private void button2_Click(object sender, EventArgs e)
         {
-            HtmlToText converter = new HtmlToText();
-            List<Node> list = converter.ConvertHtmlFile(textBox1.Text);
-            foreach (var node in list)
-                LocalizationManager.GetDynamicString("SampleHTMLAppId", node.node_hierarchy, node.content);
+            //HtmlToText converter = new HtmlToText();
+            //List<Node> list = converter.ConvertHtmlFile(textBox1.Text);
+            //foreach (var node in list)
+            //    LocalizationManager.GetDynamicString("SampleHTMLAppId", node.node_hierarchy, node.content);
+            StreamReader file = new StreamReader(this.textBox1.Text);
+            var html = file.ReadToEnd();
+            file.Close();
+            richTextBox1.Text = html;
+
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -42,11 +50,18 @@ namespace SampleApp
         {
             Settings.Default.UserInterfaceLanguage = uiLanguageComboBox1.SelectedLanguage;
             LocalizationManager.SetUILanguage(uiLanguageComboBox1.SelectedLanguage, false);
-            richTextBox1.Text = LocalizationManager.GetDynamicString("SampleHTMLAppId", "HTML.div1", "divvyy");
             foreach (Control control in this.Controls)
             {
                 control.Text = LocalizationManager.GetDynamicString("SampleHTMLAppId", this.l10NSharpExtender1.GetLocalizingId(control), "error");
             }
+            
+            var path_to_localized_html = LocalizationManager.LocalizeHtmlFile(this.textBox1.Text, "SampleHTMLAppId");
+
+            StreamReader file = new StreamReader(path_to_localized_html);
+            var html = file.ReadToEnd();
+            file.Close();
+            richTextBox1.Text = html;
+            textBox1.Text = path_to_localized_html;
         }
     }
 }
