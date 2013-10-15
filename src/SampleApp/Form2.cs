@@ -19,6 +19,7 @@ namespace SampleApp
         {
             InitializeComponent();
             LocalizationManager.LocalizeHtmlFile(this.textBox1.Text, "SampleHTMLAppId");
+            Console.WriteLine(LocalizationManager.LocalizeHtmlString("<h1>hello there</h1>", "html-s-1", "SampleHTMLAppId"));
         }
 
         private void button1_Click(object sender, EventArgs e)

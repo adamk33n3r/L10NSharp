@@ -1248,6 +1248,25 @@ namespace L10NSharp
             return new_path;
         }
 
+        public static string LocalizeHtmlString(string html, string name, string appId)
+        {
+            // Load original
+            HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+            doc.LoadHtml(html);
+
+            // Change stuff
+            HtmlToText converter = new HtmlToText();
+            List<Node> list = converter.ConvertHtmlString(html, name);
+            foreach (var node in list)
+            {
+                string xpath = node.node_hierarchy.Replace('.', '/').Substring(node.node_hierarchy.IndexOf('.'));
+                var doc_node = doc.DocumentNode.SelectSingleNode(xpath);
+                var localized_text = LocalizationManager.GetDynamicString(appId, node.node_hierarchy, node.content);
+                doc_node.InnerHtml = localized_text;
+            }
+            return doc.ToString();
+        }
+
 		/// ------------------------------------------------------------------------------------
 		public override string ToString()
 		{

@@ -30,13 +30,13 @@ namespace L10NSharp
             return list;
         }
 
-        public List<Node> ConvertHtmlString(string html)
+        public List<Node> ConvertHtmlString(string html, string name)
         {
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(html);
 
             List<Node> list = new List<Node>();
-            ConvertTo(doc.DocumentNode, "html-string", list);
+            ConvertTo(doc.DocumentNode, name, list);
             return list;
         }
 
