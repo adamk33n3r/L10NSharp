@@ -10,6 +10,7 @@ using System.Threading;
 using System.Windows.Forms;
 using System.Xml.Linq;
 using L10NSharp.UI;
+using HtmlAgilityPack;
 
 namespace L10NSharp
 {
@@ -1240,6 +1241,16 @@ namespace L10NSharp
                 var doc_node = doc.DocumentNode.SelectSingleNode(xpath);
                 var localized_text = LocalizationManager.GetDynamicString(appId, node.node_hierarchy, node.content);
                 doc_node.InnerHtml = localized_text;
+            }
+            
+            //Add <base>
+            if (doc.DocumentNode.SelectSingleNode("//base") == null)
+            {
+                HtmlNode head = doc.DocumentNode.SelectSingleNode("//head");
+                HtmlNode newBaseNode = HtmlNode.CreateNode("<base>");
+                string basePath = path.Substring(0, path.LastIndexOf("\\")+1);
+                newBaseNode.SetAttributeValue("href", basePath);
+                head.PrependChild(newBaseNode);
             }
 
             // Save new translation

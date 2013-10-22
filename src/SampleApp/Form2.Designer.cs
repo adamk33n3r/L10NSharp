@@ -46,9 +46,9 @@
             this.l10NSharpExtender1.SetLocalizingId(this.textBox1, "SampleHTMLAppForm.textBox1");
             this.textBox1.Location = new System.Drawing.Point(12, 34);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Text = "X:\\public_html\\cos350\\index.html";
             this.textBox1.Size = new System.Drawing.Size(179, 20);
             this.textBox1.TabIndex = 0;
+            this.textBox1.Text = "X:\\Windows\\Desktop\\l10n.html";
             // 
             // button1
             // 
@@ -68,7 +68,7 @@
             this.l10NSharpExtender1.SetLocalizableToolTip(this.button2, null);
             this.l10NSharpExtender1.SetLocalizationComment(this.button2, null);
             this.l10NSharpExtender1.SetLocalizingId(this.button2, "SampleHTMLAppForm.button2");
-            this.button2.Location = new System.Drawing.Point(197, 61);
+            this.button2.Location = new System.Drawing.Point(196, 60);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 2;
@@ -78,9 +78,9 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(12, 90);
+            this.richTextBox1.Location = new System.Drawing.Point(12, 89);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(260, 160);
+            this.richTextBox1.Size = new System.Drawing.Size(260, 207);
             this.richTextBox1.TabIndex = 3;
             this.richTextBox1.Text = "";
             // 
@@ -89,7 +89,7 @@
             this.l10NSharpExtender1.SetLocalizableToolTip(this.button3, null);
             this.l10NSharpExtender1.SetLocalizationComment(this.button3, null);
             this.l10NSharpExtender1.SetLocalizingId(this.button3, "SampleHTMLAppForm.button3");
-            this.button3.Location = new System.Drawing.Point(12, 61);
+            this.button3.Location = new System.Drawing.Point(11, 60);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(179, 23);
             this.button3.TabIndex = 4;
@@ -123,7 +123,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(283, 308);
             this.Controls.Add(this.uiLanguageComboBox1);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.richTextBox1);
