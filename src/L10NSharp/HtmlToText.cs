@@ -42,6 +42,7 @@ namespace L10NSharp
 
         public void ConvertTo(HtmlNode node, string filePath, List<Node> outText)
         {
+            filePath=filePath.Replace('.', '-');
             string html;
             
             switch (node.NodeType)
@@ -73,7 +74,7 @@ namespace L10NSharp
                         string path = node.XPath.Replace('/','.');
                         path = path.Substring(0, path.Length - 9);
                         int start = filePath.LastIndexOf('\\')+1;
-                        path = filePath.Substring(start, filePath.Length-5-start)+path;
+                        path = filePath.Substring(start, filePath.Length-start)+path;
                         outText.Add(new Node(path, HtmlEntity.DeEntitize(html)));
                     }
                     break;
