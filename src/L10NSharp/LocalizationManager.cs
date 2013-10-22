@@ -1275,7 +1275,7 @@ namespace L10NSharp
                 var localized_text = LocalizationManager.GetDynamicString(appId, node.node_hierarchy, node.content);
                 doc_node.InnerHtml = localized_text;
             }
-            return doc.ToString();
+            return doc.DocumentNode.OuterHtml;
         }
 
 		/// ------------------------------------------------------------------------------------
