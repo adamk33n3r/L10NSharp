@@ -18,11 +18,11 @@ namespace SampleApp
         public SampleHTMLAppForm()
         {
             InitializeComponent();
-            LocalizationManager.LocalizeHtmlFile(this.textBox1.Text, "SampleHTMLAppId");
             LocalizationManager.SetUILanguage("es", false);
             Console.WriteLine("HtmlString: "+LocalizationManager.LocalizeHtmlString("<h1>hello there</h1>", "html-s-1", "SampleHTMLAppId"));
         }
 
+        // Load Html
         private void button1_Click(object sender, EventArgs e)
         {
             OpenFileDialog open = new OpenFileDialog();
@@ -30,19 +30,17 @@ namespace SampleApp
             textBox1.Text = open.FileName;
         }
 
+        // Parse
         private void button2_Click(object sender, EventArgs e)
         {
-            //HtmlToText converter = new HtmlToText();
-            //List<Node> list = converter.ConvertHtmlFile(textBox1.Text);
-            //foreach (var node in list)
-            //    LocalizationManager.GetDynamicString("SampleHTMLAppId", node.node_hierarchy, node.content);
+            LocalizationManager.LocalizeHtmlFile(this.textBox1.Text, "SampleHTMLAppId");
             StreamReader file = new StreamReader(this.textBox1.Text);
             var html = file.ReadToEnd();
             file.Close();
             richTextBox1.Text = html;
-
         }
 
+        // Open Localization Dialog
         private void button3_Click(object sender, EventArgs e)
         {
             L10NSharp.LocalizationManager.ShowLocalizationDialogBox("html");
@@ -64,6 +62,7 @@ namespace SampleApp
             file.Close();
             richTextBox1.Text = html;
             textBox1.Text = path_to_localized_html;
+            Console.WriteLine("HtmlString: " + LocalizationManager.LocalizeHtmlString("<h1>hello there</h1>", "html-s-1", "SampleHTMLAppId"));
         }
     }
 }

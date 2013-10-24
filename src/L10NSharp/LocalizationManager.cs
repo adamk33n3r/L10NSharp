@@ -1228,22 +1228,28 @@ namespace L10NSharp
 
         public static string LocalizeHtmlFile(string path, string appId)
         {
-            // Load original
+            // Takes a File path of an html file and the app id of the localization manager that
+            // you want to add the file to. It returns the path of a translated html file. 
+
+            // Load file to add to localization manager
             HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
             doc.Load(path);
 
-            // Change stuff
+            // Parse out text from the html file and add to localization manager
             HtmlToText converter = new HtmlToText();
             List<Node> list = converter.ConvertHtmlFile(path);
             foreach (var node in list)
             {
                 string xpath = node.node_hierarchy.Replace('.', '/').Substring(node.node_hierarchy.IndexOf('.'));
                 var doc_node = doc.DocumentNode.SelectSingleNode(xpath);
+                // Dynamically gets the translated strings from the localization manager if there are
+                // translations saved for the current ui language. If no translations found then the
+                // text from the html is added to the localization manager.
                 var localized_text = LocalizationManager.GetDynamicString(appId, node.node_hierarchy, node.content);
                 doc_node.InnerHtml = localized_text;
             }
             
-            //Add <base>
+            // Add <base> in case the file is moved
             if (doc.DocumentNode.SelectSingleNode("//base") == null)
             {
                 HtmlNode head = doc.DocumentNode.SelectSingleNode("//head");
@@ -1253,7 +1259,7 @@ namespace L10NSharp
                 head.PrependChild(newBaseNode);
             }
 
-            // Save new translation
+            // Save new translation to html file
             string new_path = path.Substring(0, path.Length - 5) + "." + s_uiLangId + ".html";
             doc.Save(new_path);
             return new_path;
@@ -1261,11 +1267,11 @@ namespace L10NSharp
 
         public static string LocalizeHtmlString(string html, string name, string appId)
         {
-            // Load original
+            // Load string to an html document
             HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
             doc.LoadHtml(html);
 
-            // Change stuff
+            // Parse out text from the html string and add to localization manager
             HtmlToText converter = new HtmlToText();
             List<Node> list = converter.ConvertHtmlString(html, name);
             foreach (var node in list)
